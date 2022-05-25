@@ -43,7 +43,7 @@ app.post('/login', (req, res) => {
     if(!username || !password) 
     return res.status(400).json({msg: "ผิดพลาด"})
 
-    if(username != "admin" || password != "password") 
+    if(username !== "admin" || password !== "password")
     return res.status(400).json({msg: "Username หรือ Password ไม่ถูกต้อง"})
 
     const token = jsonwebtoken.sign({
