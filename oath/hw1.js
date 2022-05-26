@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
-    if(req.path == "/login") return next()
+    if(req.path === "/login") return next()
 
     const auth = req.headers.authorization
 
@@ -41,7 +41,7 @@ app.post('/login', (req, res) => {
     if(!username || !password) 
     return res.status(400).json({msg: "FAIL"})
 
-    if(username != "admin" || password != "password") 
+    if(username !== "admin" || password !== "password")
     return res.status(400).json({msg: "Username หรือ Password ไม่ถูกต้อง"})
 
     const token = jsonwebtoken.sign({
@@ -83,7 +83,7 @@ app.post('/create',(req,res) => {
         mail: req.body.email
     }, (err, result) => {
         if (err) {
-            if (err.code == "ER_DUP_ENTRY") return res.status(400).json({ msg: "ผิดพลาดเนื่องจากมีข้อมูลซ้ำ" })
+            if (err.code === "ER_DUP_ENTRY") return res.status(400).json({ msg: "ผิดพลาดเนื่องจากมีข้อมูลซ้ำ" })
             return res.status(400).json({ msg: "ข้อผิดพลาดที่ไม่รู้จัก" })
         }
         res.json({ msg: "OK" })
@@ -109,11 +109,11 @@ app.put('/update',(req,res) => {
     }, (err, result) => {
         if (err) {
             console.log({err})
-            if (err.code == "ER_DUP_ENTRY") return res.status(400).json({ msg: "มีข้อมูลซ้ำ" })
+            if (err.code === "ER_DUP_ENTRY") return res.status(400).json({ msg: "มีข้อมูลซ้ำ" })
             return res.status(400).json({ msg: "ข้อผิดพลาดที่ไม่รู้จัก" })
         }
 
-        if (result.affectedRows == 0) return res.status(400).json({ msg: "ไม่พบข้อมูลของ Employee" })
+        if (result.affectedRows === 0) return res.status(400).json({ msg: "ไม่พบข้อมูลของ Employee" })
         res.json({ msg: "OK" })
     })
 })
@@ -127,7 +127,7 @@ app.delete('/delete',(req,res) => {
 
     sqlPool.query(sql, { id: req.body.id, }, (err, result) => {
         if (err) return res.status(400).json({ msg: "ข้อผิดพลาด" })
-        if (result.affectedRows == 0) return res.status(400).json({ msg: "ไม่พบข้อมูลของ Employee" })
+        if (result.affectedRows === 0) return res.status(400).json({ msg: "ไม่พบข้อมูลของ Employee" })
         res.json({ msg: "OK" })
     })
 })
